@@ -48259,6 +48259,7 @@ async function getNewFeedItems() {
 
 
   allNewFeedItems.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+  console.log('getNewFeedItems found', allNewFeedItems.length, 'new feedItems');
   return allNewFeedItems;
 }
 // EXTERNAL MODULE: ./node_modules/@tryfabric/martian/build/src/index.js
