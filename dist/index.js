@@ -48069,22 +48069,6 @@ var __webpack_exports__ = {};
 // EXTERNAL MODULE: ./node_modules/rss-parser/index.js
 var rss_parser = __webpack_require__(5003);
 var rss_parser_default = /*#__PURE__*/__webpack_require__.n(rss_parser);
-;// CONCATENATED MODULE: ./src/helpers.js
-function timeDifference(date1, date2) {
-  const difference = Math.floor(date1) - Math.floor(date2);
-  const diffInDays = Math.floor(difference / 60 / 60 / 24);
-  const diffInHours = Math.floor(difference / 60 / 60);
-  const diffInMinutes = Math.floor(difference / 60);
-  const diffInSeconds = Math.floor(difference);
-  return {
-    date1,
-    date2,
-    diffInDays,
-    diffInHours,
-    diffInMinutes,
-    diffInSeconds
-  };
-}
 // EXTERNAL MODULE: ./node_modules/dotenv/lib/main.js
 var main = __webpack_require__(9738);
 // EXTERNAL MODULE: ./node_modules/@notionhq/client/build/src/index.js
@@ -48236,13 +48220,7 @@ async function getNewFeedItemsFrom(feedUrl) {
 
   const todaysDate = new Date().getTime() / 1000;
   console.log('there were', rss.items.length, 'rss items');
-  return rss.items.filter(item => {
-    const blogPublishedDate = new Date(item.pubDate).getTime() / 1000;
-    const {
-      diffInDays
-    } = timeDifference(todaysDate, blogPublishedDate);
-    return diffInDays === 0;
-  });
+  return rss.items;
 }
 
 async function getNewFeedItems() {
