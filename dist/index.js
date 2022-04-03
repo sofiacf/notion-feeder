@@ -48103,7 +48103,7 @@ const logLevel = CI ? src/* LogLevel.INFO */["in"].INFO : src/* LogLevel.DEBUG *
 async function getFeedUrlsFromNotion() {
   const notion = new src/* Client */.KU({
     auth: NOTION_API_TOKEN,
-    logLevel
+    logLevel: src/* LogLevel.DEBUG */["in"].DEBUG
   });
   let response;
 
@@ -48128,6 +48128,7 @@ async function getFeedUrlsFromNotion() {
     title: item.properties.Title.title[0].plain_text,
     feedUrl: item.properties.Link.url
   }));
+  console.log('feeds', feeds);
   return feeds;
 }
 async function addFeedItemToNotion(notionItem) {
@@ -48136,6 +48137,7 @@ async function addFeedItemToNotion(notionItem) {
     link,
     content
   } = notionItem;
+  console.log('the notion item is', notionItem);
   const notion = new src/* Client */.KU({
     auth: NOTION_API_TOKEN,
     logLevel
@@ -48160,7 +48162,9 @@ async function addFeedItemToNotion(notionItem) {
       },
       children: content
     });
+    console.log('allegedly added the feed', title, link, content);
   } catch (err) {
+    console.log('oh no something went wrong adding', title, '!!!');
     console.error(err);
   }
 }
@@ -48231,6 +48235,7 @@ async function getNewFeedItemsFrom(feedUrl) {
   }
 
   const todaysDate = new Date().getTime() / 1000;
+  console.log('there were', rss.items.length, 'rss items');
   return rss.items.filter(item => {
     const blogPublishedDate = new Date(item.pubDate).getTime() / 1000;
     const {
@@ -49232,15 +49237,18 @@ function htmlToNotionBlocks(htmlContent) {
 
 
 async function index() {
+  console.debug('hello from index()');
   const feedItems = await getNewFeedItems();
 
   for (let i = 0; i < feedItems.length; i++) {
     const item = feedItems[i];
+    console.log('item ', i, item);
     const notionItem = {
       title: item.title,
       link: item.link,
       content: htmlToNotionBlocks(item.content)
     };
+    console.log('notionItem', i, notionItem);
     await addFeedItemToNotion(notionItem);
   }
 
