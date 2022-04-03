@@ -49239,6 +49239,7 @@ function htmlToNotionBlocks(htmlContent) {
 async function index() {
   console.debug('hello from index()');
   const feedItems = await getNewFeedItems();
+  console.log('there were', feedItems.length, 'feedItems');
 
   for (let i = 0; i < feedItems.length; i++) {
     const item = feedItems[i];
